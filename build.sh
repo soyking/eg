@@ -23,7 +23,7 @@ if [ ! -f $procfile ]; then
 	sed -i '' s/127\.0\.0\.1/0\.0\.0\.0/g $procfile
 fi
 
-if [ ! -f $goreman"/goreman" ]; then
+if [ ! -f $goreman_dir"/goreman" ]; then
 	mkdir $goreman_dir
 	wget "https://github.com/mattn/goreman/releases/download/v"$goreman_version"/goreman_linux_amd64.zip" -O $goreman_dir/goreman.zip
 	unzip $goreman_dir/goreman.zip -d goreman
