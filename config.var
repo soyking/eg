@@ -1,0 +1,4 @@
+ubuntu_version="20.04"
+etcd_version="v3.5.0"
+goreman_version="v0.3.7"
+docker_tag="soyking/etcd-goreman:"$etcd_version

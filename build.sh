@@ -1,5 +1,6 @@
-etcd_version="3.2.7"
-goreman_version="0.0.10"
+#!/bin/bash -ex
+
+source config.var
 
 etcd_dir="etcd"
 goreman_dir="goreman"
@@ -11,14 +12,18 @@ fi
 
 if [ ! -f $etcd_dir"/etcd" ]; then
 	mkdir $etcd_dir
-	wget "https://github.com/coreos/etcd/releases/download/v"$etcd_version"/etcd-v"$etcd_version"-linux-amd64.tar.gz" -O $etcd_dir/etcd.tar.gz
-	tar xvf $etcd_dir/etcd.tar.gz -C etcd --strip-components=1
+	wget "https://github.com/etcd-io/etcd/releases/download/"$etcd_version"/etcd-"$etcd_version"-linux-amd64.tar.gz" -O $etcd_dir/etcd.tar.gz
+	tar xvf $etcd_dir/etcd.tar.gz -C $etcd_dir --strip-components=1
 fi
 
 if [ ! -f $goreman_dir"/goreman" ]; then
 	mkdir $goreman_dir
-	wget "https://github.com/mattn/goreman/releases/download/v"$goreman_version"/goreman_linux_amd64.zip" -O $goreman_dir/goreman.zip
-	unzip $goreman_dir/goreman.zip -d goreman
+	wget "https://github.com/mattn/goreman/releases/download/"$goreman_version"/goreman_"$goreman_version"_linux_amd64.tar.gz" -O $goreman_dir/goreman.zip
+	tar xvf $goreman_dir/goreman.zip -C $goreman_dir --strip-components=1
 fi
 
-docker build -t "etcd-goreman:"$etcd_version .
+docker build --build-arg UBUNTU_VERSION=$ubuntu_version \
+	--label ubuntu=$ubuntu_version \
+	--label etcd=$etcd_version \
+	--label goreman=$goreman_version \
+	-t $docker_tag .
